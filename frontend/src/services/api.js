@@ -1,18 +1,17 @@
+
 import axios from "axios";
 
-// Ensure API_URL does NOT contain `/api`
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 // General function to handle errors
 const handleApiError = (error, defaultMessage) => {
   return error.response?.data?.message || defaultMessage;
 };
 
-// ---------------------- User Authentication ----------------------
-
+// User Authentication
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/users/register`, userData);
+    const response = await axios.post(`${API_URL}/api/users/register`, userData);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error, "Registration failed"));
@@ -21,18 +20,17 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_URL}/users/login`, userData);
+    const response = await axios.post(`${API_URL}/api/users/login`, userData);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error, "Login failed"));
   }
 };
 
-// ---------------------- Books ----------------------
-
+// Books
 export const fetchBooks = async () => {
   try {
-    const response = await axios.get(`${API_URL}/books`);
+    const response = await axios.get(`${API_URL}/api/books`);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error, "Failed to fetch books"));
@@ -41,18 +39,17 @@ export const fetchBooks = async () => {
 
 export const fetchBookDetails = async (bookId) => {
   try {
-    const response = await axios.get(`${API_URL}/books/${bookId}`);
+    const response = await axios.get(`${API_URL}/api/books/${bookId}`);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error, "Failed to fetch book details"));
   }
 };
 
-// ---------------------- Reviews ----------------------
-
+// Reviews
 export const fetchReviews = async (bookId) => {
   try {
-    const response = await axios.get(`${API_URL}/reviews/${bookId}`);
+    const response = await axios.get(`${API_URL}/api/reviews/${bookId}`);
     return response.data;
   } catch (error) {
     throw new Error(handleApiError(error, "Failed to fetch reviews"));
@@ -61,7 +58,7 @@ export const fetchReviews = async (bookId) => {
 
 export const submitReview = async (reviewData, token) => {
   try {
-    const response = await axios.post(`${API_URL}/reviews`, reviewData, {
+    const response = await axios.post(`${API_URL}/api/reviews`, reviewData, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
@@ -70,8 +67,7 @@ export const submitReview = async (reviewData, token) => {
   }
 };
 
-// ---------------------- Authentication Token ----------------------
-
+// Authentication Token
 export const setAuthToken = (token) => {
   if (token) {
     localStorage.setItem("token", token);
@@ -88,3 +84,4 @@ axios.interceptors.request.use((config) => {
   }
   return config;
 });
+

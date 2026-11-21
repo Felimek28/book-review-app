@@ -1,21 +1,20 @@
-# Use Node.js LTS as base image
-FROM node:18
+# Use Node.js 20 LTS as the base image
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files first
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
-# Copy the rest of the application files
+# Copy the application source code
 COPY . .
 
 # Expose the Next.js port
 EXPOSE 3000
 
-# Start Next.js in development mode
+# Start the frontend application
 CMD ["npm", "run", "dev"]
-
